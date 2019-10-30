@@ -130,10 +130,10 @@ public class DBFReadAndWrite extends DBFBase implements Closeable {
 
     public void writeItem(int rowIdx, String columeName, Object objectValue) {
         if (columeName == null) {
-            throw new DBFException("wirteItem, colume name null, columeName: " + columeName);
+            throw new DBFException("wirteItem, colume name null");
         }
         if (dbfPath == null) {
-            throw new DBFException("wirteItem, File no exist, dbfPath: " + dbfPath);
+            throw new DBFException("wirteItem, File no exist, dbfPath is null");
         }
         if (rowIdx < 0 || rowIdx > getRecordCount() - 1) {
             throw new DBFException("wirteItem, rowIdx error, rowIdx: " + rowIdx);
@@ -230,9 +230,7 @@ public class DBFReadAndWrite extends DBFBase implements Closeable {
                 default:
                     throw new DBFException("Unknown field type " + rightField.getType());
             }
-
-            raf.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             //Log.i(TAG, "error: " + e.getMessage());
             e.printStackTrace();
         } finally {
@@ -240,7 +238,7 @@ public class DBFReadAndWrite extends DBFBase implements Closeable {
                 if (raf != null) {
                     raf.close();
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -341,10 +339,10 @@ public class DBFReadAndWrite extends DBFBase implements Closeable {
 
     private int getFieldValueBeginIndex(int rowIdx, String columeName) {
         if (columeName == null) {
-            throw new DBFException("wirteItem, colume name null, columeName: " + columeName);
+            throw new DBFException("getFieldValueBeginIndex, colume name null, columeName");
         }
         if (rowIdx < 0 || rowIdx > getRecordCount() - 1) {
-            throw new DBFException("wirteItem, rowIdx error, rowIdx: " + rowIdx);
+            throw new DBFException("getFieldValueBeginIndex, rowIdx error, rowIdx: " + rowIdx);
         }
 
         int rowDataIdx = getRowDataBeginIndex(rowIdx);
